@@ -66,7 +66,6 @@ class Zarf(tk.Tk):
     def solve(self):
         modes = list(filter(lambda i:i!= 'NA', [['p', 'a', 'b', 'NA'][radio.get()] for radio in self.radios]))
         racks = list(filter(lambda i: bool(i), [entry.get().upper() for entry in self.inputs]))
-        print(modes, racks)
         self.resultSet(zarf.multisearch(modes, racks))
 
 z = Zarf()

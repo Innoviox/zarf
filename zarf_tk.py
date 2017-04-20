@@ -50,8 +50,9 @@ class Zarf(tk.Tk):
     def _destroy_gui(self, num):
         for i in self.buttons[num-1]:
             i.grid_forget()
-        for l in [self.inputs, self.minusButtons]:
-            l[num-1].grid_forget()
+        self.minusButtons[num-1].grid_forget()
+        self.inputs[num-1].grid_forget()
+        self.inputs[num-1].sv.set("")
         
     def resultSet(self, text):
         self.resultBox.config(state=tk.NORMAL)

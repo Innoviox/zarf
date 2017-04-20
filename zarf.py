@@ -18,7 +18,7 @@ try:
         used = sorted(u, key=lambda word:-len(word))
         used = [list(blankPrint(word, rack)) for word in used]
         for i in range(len(used)):
-            used[i].insert(0, i)
+            used[i].insert(0, i+1)
         df = tb.tabulate(used, headers=['', 'Front', 'Words', 'Back'], tablefmt="fancy_grid")
         print(df)
         return df

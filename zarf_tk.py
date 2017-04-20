@@ -1,4 +1,6 @@
 import tkinter as tk
+import functools
+
 import zarf
 
 class InputBar(tk.Entry):
@@ -43,13 +45,14 @@ class Zarf(tk.Tk):
             self.buttons[-1].append(Button(self, text, self.radios[-1], col))
         self.resultBox.grid(row=2+self.gui_count, column=1)
         
-        minusButton = tk.Button(self, text="-", command=lambda num=self.gui_count: self._destroy_gui(num))
+        minusButton = tk.Button(self, text="-", command=functools.partial(self._destroy_gui, self.gui_count))
         minusButton.grid(row=self.gui_count+1, column=6)
         self.minusButtons.append(minusButton)
         
     def _destroy_gui(self, num):
         for i in self.buttons[num-1]:
             i.grid_forget()
+        self.radios[num-1].set(3) #illegal :)
         self.minusButtons[num-1].grid_forget()
         self.inputs[num-1].grid_forget()
         self.inputs[num-1].sv.set("")
@@ -61,8 +64,9 @@ class Zarf(tk.Tk):
         self.resultBox.config(state=tk.DISABLED)
         
     def solve(self):
-        modes = [['p', 'a', 'b'][radio.get()] for radio in self.radios]
+        modes = list(filter(lambda i:i!= 'NA', [['p', 'a', 'b', 'NA'][radio.get()] for radio in self.radios]))
         racks = list(filter(lambda i: bool(i), [entry.get().upper() for entry in self.inputs]))
+        print(modes, racks)
         self.resultSet(zarf.multisearch(modes, racks))
 
 z = Zarf()

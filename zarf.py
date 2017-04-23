@@ -20,7 +20,7 @@ try:
         for i in range(len(used)):
             used[i].insert(0, i+1)
         df = tb.tabulate(used, headers=['', 'Front', 'Words', 'Back'], tablefmt="fancy_grid")
-        print(df)
+        #print(df)
         return df
 except ImportError:
     print("No tabulate installation found; trying pandas")
@@ -33,7 +33,7 @@ except ImportError:
             df = _create().append(_create(*[[i[j] for i in [blankPrint(word, rack) for word in u]] for j in range(3)]).iloc[(lambda series:[series.index(i) for i in sorted(series,key={j:i for i, j in enumerate(sorted(u, key=lambda word:-len(word)))}.get)])(u)], ignore_index=True)
             df.index += 1
             df = df.to_string()
-            print(df)
+            #print(df)
             return df
     except ImportError:
         print("No pandas installation found")
@@ -54,16 +54,15 @@ def getWords_2(r, length='any', max_length=15):
         yield from getSomeWords_2(d, r, length, max_length)
 
 def confirm(seq, n):
-    i = 0
-    for j in seq:
-        if j:
-            i += 1
-            if i >= n:
-                return True
-    return False
+    return len(list(filter(bool, seq))) >= n
+#sum(1 for i in seq if bool(i)) >= n
+#return sum(1 for i in seq if bool(seq)) >= n
 #)(confirm((i in r for i in word), len(r)-r.count('.')*2-1)) or len(word)<4))
+#(all(i in r for i in word) or ('.' in r  and any(i in r for i in word)))
+
+#confirm((i in r for i in word), min(len(word), len(r)) - r.count('.')
 def getSomeWords_2(d, r, length='any', max_length=15):
-    return filter(lambda word: (length == 'any' or (len(word) == length and max_length == 15)) and len(word) <= max_length and (all(i in r for i in word) or ('.' in r  and any(i in r for i in word))), subdicts[d])
+    return filter(lambda word: (length == 'any' or (len(word) == length and max_length == 15)) and len(word) <= max_length and confirm((i in r for i in word), min(len(word), len(r)) - r.count('.')), subdicts[d])
 
 def hooks(word, side):
     hooks = []
@@ -141,7 +140,6 @@ def search(mode, rack, textFunc=getWords, ret=None):
 
 def multisearch(modes, racks, textFunc=getWords, ret=None):
     for mode, rack in zip(modes, racks):
-        print(mode, rack)
         _last = search(mode, rack, textFunc)
         textFunc = lambda: _last
     return pprint(textFunc(), racks[-1])

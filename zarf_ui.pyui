@@ -1,0 +1,95 @@
+[
+  {
+    "nodes" : [
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{6, 6}, {106, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "uuid" : "7FE1833A-1A5D-4BCF-9072-45FF656C5BF7",
+          "frame" : "{{20, 104}, {200, 32}}",
+          "action" : "search",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "placeholder" : "search term",
+          "font_name" : "<System>",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "name" : "tf1",
+          "font_size" : 17
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{120, 6}, {69, 32}}",
+        "class" : "SegmentedControl",
+        "attributes" : {
+          "action" : "search",
+          "flex" : "LR",
+          "segments" : "P|A|B",
+          "frame" : "{{60, 106}, {120, 29}}",
+          "uuid" : "B77623BD-A94C-4608-90FB-2F2D26EF9A34",
+          "class" : "SegmentedControl",
+          "name" : "sc1"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{0, 40}, {240, 200}}",
+        "class" : "TextView",
+        "attributes" : {
+          "uuid" : "15A6333E-94EB-45F6-A8E4-D6AB75E6A0BB",
+          "font_size" : 14,
+          "frame" : "{{20, 20}, {200, 200}}",
+          "editable" : false,
+          "alignment" : "center",
+          "autocorrection_type" : "default",
+          "text" : "label",
+          "font_name" : "AnonymousPro",
+          "spellchecking_type" : "default",
+          "class" : "TextView",
+          "name" : "tv",
+          "flex" : "WHLRB"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{197, 6}, {37, 32}}",
+        "class" : "Button",
+        "attributes" : {
+          "action" : "add",
+          "flex" : "LB",
+          "frame" : "{{80, 104}, {80, 32}}",
+          "title" : "+",
+          "uuid" : "1B569DC5-0ADC-4F17-993A-28DD1BBB49D6",
+          "class" : "Button",
+          "name" : "add0",
+          "font_size" : 15
+        },
+        "selected" : false
+      }
+    ],
+    "frame" : "{{0, 0}, {240, 240}}",
+    "class" : "View",
+    "attributes" : {
+      "enabled" : true,
+      "background_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+      "tint_color" : "RGBA(0.000000,0.478000,1.000000,1.000000)",
+      "border_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+      "flex" : ""
+    },
+    "selected" : false
+  }
+]

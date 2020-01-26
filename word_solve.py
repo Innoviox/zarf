@@ -2,7 +2,7 @@ from string import ascii_uppercase
 
 board = ['TRUD', 'IESM', 'LEWO', 'TSLN']
 board = ['NOUC', 'EURO', 'LLTD', 'ETAA']
-board = ['YTHA', 'IMEH', 'ISBS', 'BRTN']
+board = ['TLDN', 'EEOH', 'MSHR', 'SAII']
 board = [list(i) for i in board]
 
 scores = {
@@ -75,8 +75,6 @@ def _solve(board, current_node, current_prefix, prev):
             if p in prev: continue
             if not(0 <= p[0] < 4 and 0 <= p[1] < 4): continue
 
-            # print(current_pos, board[current_pos[0]][current_pos[1]], board[p[0]][p[1]])
-
             s = board[p[0]][p[1]]
             if next_node := current_node.next(s):
                 yield from _solve(board, next_node, current_prefix + s, prev + [p])
@@ -90,4 +88,4 @@ a=list(set(solve(board)))
 
 print(len(a), sum([scores[len(i)] for i in a]))
 for i in range(3, len(max(a, key=len)) + 1):
-    print([j for j in a if len(j) == i])
+    print(i, [j for j in a if len(j) == i])

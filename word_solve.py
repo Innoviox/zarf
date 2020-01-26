@@ -1,9 +1,10 @@
 from string import ascii_uppercase
+import pickle
 
 board = ['TRUD', 'IESM', 'LEWO', 'TSLN']
 board = ['NOUC', 'EURO', 'LLTD', 'ETAA']
-board = ['TLDN', 'EEOH', 'MSHR', 'SAII']
-board = [list(i) for i in board]
+board = 'TLDNEEOHMSHRSAII'
+board = [list(board[i:i+4]) for i in range(0, len(board), 4)]
 
 scores = {
     3: 100,
@@ -61,7 +62,8 @@ class Dawg:
                 return False
         return current
 
-dawg = Dawg()
+# dawg = Dawg()
+dawg = pickle.load(open("dawg", "rb"))
 print("Dawg loaded")
 
 def _solve(board, current_node, current_prefix, prev):

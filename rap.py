@@ -104,15 +104,15 @@ words = ["CARE"]
 
 import zarf
 
-words = zarf.search('b', 'PEARLS')
-print(words)
+# words = zarf.search('b', 'PEARLS')
+# print(words)
 
 g = Gaddag()
 for w in words:
     g.add(w)
 G, labels, pos, colors = g.to_nx()
 # pos = nx.spring_layout(G)
-nx.draw(G, pos, node_size=100, node_color=colors)
-nx.draw_networkx_labels(G, pos, labels, font_color='white', font_size=7)
+nx.draw(G, pos, node_size=2500, node_color=colors)
+nx.draw_networkx_labels(G, pos, labels, font_color='white', font_size=22)
 plt.savefig("gaddag.png", dpi=300)
 plt.show()

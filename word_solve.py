@@ -1,9 +1,10 @@
 from string import ascii_uppercase
-import pickle
+import pickle, random, statistics
 
 board = ['TRUD', 'IESM', 'LEWO', 'TSLN']
 board = ['NOUC', 'EURO', 'LLTD', 'ETAA']
 board = 'FSNCBETHAEPOSLRR'
+board = 'SERSPATGLINESERS'
 board = [list(board[i:i+4]) for i in range(0, len(board), 4)]
 
 scores = {
@@ -91,3 +92,13 @@ a=list(set(solve(board)))
 print(len(a), sum([scores[len(i)] for i in a]))
 for i in range(3, len(max(a, key=len)) + 1):
     print(i, [j for j in a if len(j) == i])
+
+##games = []
+##boards = []
+##for _ in range(1000):
+##    board = ''.join(random.choice(ascii_uppercase) for _ in range(16))
+##    boards.append(board)
+##    board = [list(board[i:i+4]) for i in range(0, len(board), 4)]
+##    games.append(sum([scores.get(len(i), 0) for i in list(set(solve(board)))]))
+##
+##print(statistics.mean(games))

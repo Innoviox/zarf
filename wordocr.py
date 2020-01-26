@@ -2,7 +2,7 @@ from PIL import Image
 import pytesseract
 import cv2, os
 
-image = cv2.imread("board.PNG")
+image = cv2.imread("actb.PNG")
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 filename = "{}.png".format(os.getpid())
 cv2.imwrite(filename, gray)

@@ -3,7 +3,7 @@ import pickle
 
 board = ['TRUD', 'IESM', 'LEWO', 'TSLN']
 board = ['NOUC', 'EURO', 'LLTD', 'ETAA']
-board = 'TLDNEEOHMSHRSAII'
+board = 'FSNCBETHAEPOSLRR'
 board = [list(board[i:i+4]) for i in range(0, len(board), 4)]
 
 scores = {

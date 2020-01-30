@@ -1,12 +1,10 @@
 from string import ascii_uppercase
 import pickle, random, statistics
-
+import tqdm
 board = ['TRUD', 'IESM', 'LEWO', 'TSLN']
 board = ['NOUC', 'EURO', 'LLTD', 'ETAA']
 board = 'FSNCBETHAEPOSLRR'
-board = 'SERSPATGLINESERS'
-board = [list(board[i:i+4]) for i in range(0, len(board), 4)]
-
+board_of = lambda s: [list(s[i:i+4]) for i in range(0, len(s), 4)]
 scores = {
     3: 100,
     4: 400,
@@ -47,7 +45,7 @@ class Node:
 class Dawg:
     def __init__(self):
         self.top_node = Node(None, '#')
-        for i in ascii_uppercase:
+        for i in tqdm.tqdm(ascii_uppercase):
             for j in ascii_uppercase:
                 for word in open(f"resources/{i}{j}.txt").readlines():
                     current = self.top_node
@@ -63,9 +61,8 @@ class Dawg:
                 return False
         return current
 
-# dawg = Dawg()
-dawg = pickle.load(open("dawg", "rb"))
-print("Dawg loaded")
+
+# 
 
 def _solve(board, current_node, current_prefix, prev):
     if len(current_prefix) > 2 and current_node.valid():
@@ -87,11 +84,24 @@ def solve(board):
         for (j, col) in enumerate(row):
             yield from _solve(board, dawg.trawl(col), col, [(i, j)])
 
-a=list(set(solve(board)))
+if __name__ == "__main__":
+    dawg = pickle.load(open("dawg", "rb"))
+    print("Loaded dawg from pickle")
+    
+    import sys
 
-print(len(a), sum([scores[len(i)] for i in a]))
-for i in range(3, len(max(a, key=len)) + 1):
-    print(i, [j for j in a if len(j) == i])
+    board = 'NMIBJTROEHGADEDI'
+    board = sys.argv[1]
+    board = board_of(board)
+
+
+    a=list(set(solve(board)))
+
+    print(len(a), sum([scores[len(i)] for i in a]))
+    for i in range(3, len(max(a, key=len)) + 1):
+        print(i, [j for j in a if len(j) == i])
+else:
+    dawg = Dawg()
 
 ##games = []
 ##boards = []

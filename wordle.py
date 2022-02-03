@@ -58,7 +58,6 @@ class Wordle():
 
 Wordle("BRIAR").wordle()
 
-"""
-EUPNOEA YBBBBGY
-.....E. E A
-"""
+'''
+BRIAR
+'''

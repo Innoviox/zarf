@@ -17,7 +17,7 @@ class Wordle():
         out = ['' for _ in range(len(guess))]
         for i, (a, b) in enumerate(zip(guess, self.word)):
             if a == b:
-                out[i] = 'G'
+                out[i] = '🟩'
                 self.pattern[i] = a
                 # self.known[a] += 1
                 if a in self.in_word:
@@ -29,13 +29,13 @@ class Wordle():
             if out[i] == '':
                 # if self.word.count(a) > self.known[a]:
                 if a in self.word:
-                    out[i] = 'Y'
+                    out[i] = '🟨'
                     if a not in self.in_word:
                         self.in_word.append(a)
                     # self.known[a] += 1
                     self.out[i] += a
                 else:
-                    out[i] = 'B'
+                    out[i] = '⬛'
                     for j in range(len(guess)):
                         self.out[j] += a
 
@@ -55,12 +55,8 @@ class Wordle():
             # print(p) # for debugging
             options = zarf.multisearch('p' * len(p), p)
             # print(len(options))
-            if all(i == 'G' for i in self.evaluate(random.choice(options))):
+            if all(i == '🟩' for i in self.evaluate(random.choice(options))):
                 print(i)
                 return i
 
-Wordle("SHARD").wordle()
-
-'''
-BRIAR
-'''
+Wordle("IRATE").wordle()

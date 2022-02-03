@@ -36,25 +36,10 @@ class Wordle():
     def wordle(self):
         for i in range(6):
             p = self.make_pattern()
-            print(zarf.multisearch('p' * len(p), p, ret=True))
-            guess = random.choice(zarf.multisearch('p' * len(p), p))
+            options = zarf.multisearch('p' * len(p), p)
+            print(len(options))
+            guess = random.choice(options)
             print(guess, end=' ')
             self.evaluate(guess)
 
-Wordle("SHARD").wordle()
-
-"""
-
-pattern is .....
-get: a correct i = 1
-so pattern is .a...
-get: s yellow i = 2
-so pattern is (sa...|.a.s.|.a..s)
-
-"""
-
-"""
-.....
-BARBE BYYBG
-['
-"""
+Wordle("MOIST").wordle()

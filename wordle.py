@@ -1,33 +1,44 @@
 import zarf
 import string
 import random
+import collections
 
 class Wordle():
     def __init__(self, word):
         self.word = word
 
-        self.pattern = list(".....")
+        self.pattern = ["." for _ in range(len(word))]
 
-        self.in_word = ''
-        self.out = ['' for _ in range(5)]
+        self.known = collections.defaultdict(int)
+        self.in_word = []
+        self.out = ['' for _ in range(len(word))]
 
     def evaluate(self, guess):
-        clues = []
+        out = ['' for _ in range(len(guess))]
         for i, (a, b) in enumerate(zip(guess, self.word)):
             if a == b:
-                print('G', end='')
+                out[i] = 'G'
                 self.pattern[i] = a
-            elif a in (self.word[:i] + self.word[i + 1:]):
-                print('Y', end='')
-                if a not in self.in_word:
-                    self.in_word += a
-                self.out[i] += a
-            else:
-                print('B', end='')
+                self.known[a] += 1
+                if a in self.in_word:
+                    self.in_word.remove(a)
                 for j in range(len(guess)):
                     self.out[j] += a
+
+        for i, (a, b) in enumerate(zip(guess, self.word)):
+            if out[i] == '':
+                if self.word.count(a) > self.known[a]:
+                    out[i] = 'Y'
+                    if a not in self.in_word:
+                        self.in_word.append(a)
+                    self.known[a] += 1
+                    self.out[i] += a
+                else:
+                    out[i] = 'B'
+                    for j in range(len(guess)):
+                        self.out[j] += a
         
-        print()
+        print(''.join(out))
 
     def make_pattern(self):
         return ['^' + ''.join('[^' + a + ']' if (b == '.' and a != '') else b for a, b in zip(self.out, self.pattern)) + '$'] + \
@@ -36,10 +47,16 @@ class Wordle():
     def wordle(self):
         for i in range(6):
             p = self.make_pattern()
+            print(p)
             options = zarf.multisearch('p' * len(p), p)
             print(len(options))
             guess = random.choice(options)
             print(guess, end=' ')
             self.evaluate(guess)
 
-Wordle("MOIST").wordle()
+Wordle("BRIAR").wordle()
+
+"""
+EUPNOEA YBBBBGY
+.....E. E A
+"""

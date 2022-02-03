@@ -9,7 +9,7 @@ class Wordle():
 
         self.pattern = ["." for _ in range(len(word))]
 
-        self.known = collections.defaultdict(int)
+        # self.known = collections.defaultdict(int)
         self.in_word = []
         self.out = ['' for _ in range(len(word))]
 
@@ -19,25 +19,27 @@ class Wordle():
             if a == b:
                 out[i] = 'G'
                 self.pattern[i] = a
-                self.known[a] += 1
+                # self.known[a] += 1
                 if a in self.in_word:
                     self.in_word.remove(a)
-                for j in range(len(guess)):
-                    self.out[j] += a
+                # for j in range(len(guess)):
+                #     self.out[j] += a
 
         for i, (a, b) in enumerate(zip(guess, self.word)):
             if out[i] == '':
-                if self.word.count(a) > self.known[a]:
+                # if self.word.count(a) > self.known[a]:
+                if a in self.word:
                     out[i] = 'Y'
                     if a not in self.in_word:
                         self.in_word.append(a)
-                    self.known[a] += 1
+                    # self.known[a] += 1
                     self.out[i] += a
                 else:
                     out[i] = 'B'
                     for j in range(len(guess)):
                         self.out[j] += a
-        
+
+        self.out = [''.join(sorted(list(set(i)))) for i in self.out] # for debugging
         print(''.join(out))
 
     def make_pattern(self):

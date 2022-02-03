@@ -40,23 +40,26 @@ class Wordle():
                         self.out[j] += a
 
         self.out = [''.join(sorted(list(set(i)))) for i in self.out] # for debugging
-        print(''.join(out))
+        print(guess, ''.join(out))
+        return out
 
     def make_pattern(self):
         return ['^' + ''.join('[^' + a + ']' if (b == '.' and a != '') else b for a, b in zip(self.out, self.pattern)) + '$'] + \
                ['@' + i + '@' for i in self.in_word]
 
     def wordle(self):
-        for i in range(6):
+        i = 0
+        while True:
+            i += 1
             p = self.make_pattern()
-            print(p)
+            # print(p) # for debugging
             options = zarf.multisearch('p' * len(p), p)
-            print(len(options))
-            guess = random.choice(options)
-            print(guess, end=' ')
-            self.evaluate(guess)
+            # print(len(options))
+            if all(i == 'G' for i in self.evaluate(random.choice(options))):
+                print(i)
+                return i
 
-Wordle("BRIAR").wordle()
+Wordle("SHARD").wordle()
 
 '''
 BRIAR

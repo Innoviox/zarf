@@ -6,44 +6,42 @@ class Wordle():
     def __init__(self, word):
         self.word = word
 
-        self.pattern = [list(".....")]
+        self.pattern = list(".....")
 
-        self.out = ' '
+        self.in_word = ''
+        self.out = ['' for _ in range(5)]
 
     def evaluate(self, guess):
+        clues = []
         for i, (a, b) in enumerate(zip(guess, self.word)):
             if a == b:
                 print('G', end='')
-                # pattern[i + 1] = a
-                for p in self.pattern:
-                    p[i] = a
+                self.pattern[i] = a
             elif a in (self.word[:i] + self.word[i + 1:]):
                 print('Y', end='')
-                new_patterns = []
-                for p in self.pattern:
-                    for j in range(len(guess)):
-                        if j != i:
-                            new_patterns.append(p[:j] + [a] + p[j + 1:])
-                            # print(new_patterns)
-                self.pattern = new_patterns[:]
+                if a not in self.in_word:
+                    self.in_word += a
+                self.out[i] += a
             else:
                 print('B', end='')
-                self.out += a
-                
+                for j in range(len(guess)):
+                    self.out[j] += a
+        
         print()
 
     def make_pattern(self):
-        # .replace('.', f'[^{self.out}]')
-        return '^(' + '|'.join(''.join(i).replace('.', f'[^{self.out}]') for i in self.pattern) + ')$'
+        return ['^' + ''.join('[^' + a + ']' if (b == '.' and a != '') else b for a, b in zip(self.out, self.pattern)) + '$'] + \
+               ['@' + i + '@' for i in self.in_word]
 
     def wordle(self):
         for i in range(6):
-            print(self.make_pattern())
-            guess = random.choice(zarf.search('p', self.make_pattern()))
+            p = self.make_pattern()
+            print(zarf.multisearch('p' * len(p), p, ret=True))
+            guess = random.choice(zarf.multisearch('p' * len(p), p))
             print(guess, end=' ')
             self.evaluate(guess)
 
-Wordle("IRATE").wordle()
+Wordle("SHARD").wordle()
 
 """
 
@@ -53,4 +51,10 @@ so pattern is .a...
 get: s yellow i = 2
 so pattern is (sa...|.a.s.|.a..s)
 
+"""
+
+"""
+.....
+BARBE BYYBG
+['
 """

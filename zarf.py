@@ -143,7 +143,9 @@ def multisearch(modes, racks, textFunc=getWords, ret=None):
     for mode, rack in zip(modes, racks):
         _last = search(mode, rack, textFunc)
         textFunc = lambda: _last
-    return pprint(textFunc(), racks[-1])
+    if ret is not None:
+        return pprint(textFunc(), racks[-1])
+    return _last
 
 def checkInput(func):
     def wrap(*args, **kwargs):

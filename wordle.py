@@ -49,9 +49,6 @@ class Wordle():
 
     def wordle(self):
         i = 0
-        # self.evaluate('CRANE')
-        # self.evaluate('WRECK')
-        # self.evaluate('RELIC')
         while True:
             i += 1
             p = self.make_pattern()
@@ -67,4 +64,4 @@ class Wordle():
             self.evaluate(g)
         return self
 
-Wordle("ULCER").with_guesses("CRANE", "WRECK", "RELIC").wordle()
+Wordle("NORMAL").wordle()

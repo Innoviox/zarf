@@ -109,7 +109,7 @@ def blankPrint(word, rack):
     return ''.join(hooks(word.upper(), 'f')), text, ''.join(hooks(word.upper(), 'b'))
 
 #---logic
-def search(mode, rack, textFunc=getWords, ret=None):
+def search(mode, rack, textFunc=getWords, ret=None, realret=False):
     def _create(f=[], w=[], b=[]):
         return pd.DataFrame(collections.OrderedDict((('Front', f), ('Words', w), ('Back' , b))))
     #df = _create()
@@ -132,20 +132,22 @@ def search(mode, rack, textFunc=getWords, ret=None):
             for blankWord in flatten(blanks(rack)):
                 if word not in used and all(word.count(letter) <= blankWord.count(letter) for letter in word):
                     _add(word)
-    
-    if ret is not None:
-        df = pprint(used, rack)
+
+    df = pprint(used, rack)
+    if not realret and ret is not None:
         return df
     
     return used
 
-def multisearch(modes, racks, textFunc=getWords, ret=None):
+def multisearch(modes, racks, textFunc=getWords, ret=None, realret=False):
     for mode, rack in zip(modes, racks):
-        _last = search(mode, rack, textFunc)
+        _last = search(mode, rack, textFunc, realret=realret)
         textFunc = lambda: _last
+    if realret:
+        return _last
     if ret is not None:
         return pprint(textFunc(), racks[-1])
-    return _last
+    return pprint(textFunc(), racks[-1]) # _last
 
 def checkInput(func):
     def wrap(*args, **kwargs):

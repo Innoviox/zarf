@@ -133,8 +133,8 @@ def search(mode, rack, textFunc=getWords, ret=None, realret=False):
                 if word not in used and all(word.count(letter) <= blankWord.count(letter) for letter in word):
                     _add(word)
 
-    df = pprint(used, rack)
     if not realret and ret is not None:
+        df = pprint(used, rack)
         return df
     
     return used

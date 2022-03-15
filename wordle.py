@@ -4,6 +4,12 @@ import random
 import collections
 import tqdm
 import statistics
+import re
+
+options = [i.upper() for i in open("sedecordle_acceptable").read().split()]
+fives = [i.upper() for i in open("sedecordle_wordlist").read().split()]
+options.extend(fives)
+
 
 class Wordle():
     def __init__(self, word):
@@ -14,6 +20,7 @@ class Wordle():
         # self.known = collections.defaultdict(int)
         self.in_word = []
         self.out = ['' for _ in range(len(word))]
+        self._options = options[:]
 
     def evaluate(self, guess):
         out = ['' for _ in range(len(guess))]
@@ -22,7 +29,7 @@ class Wordle():
             if a == b:
                 out[i] = '🟩'
                 self.pattern[i] = a
-                # self.known[a] += 1
+                known[a] += 1
                 if a in self.in_word:
                     self.in_word.remove(a)
                 # for j in range(len(guess)):
@@ -50,7 +57,7 @@ class Wordle():
 
     def make_pattern(self):
         return ['^' + ''.join('[^' + a + ']' if (b == '.' and a != '') else b for a, b in zip(self.out, self.pattern)) + '$'] + \
-               ['@' + i + '@' for i in self.in_word]
+               ['.*' + i + '.*' for i in self.in_word]
 
     def wordle(self):
         i = 0
@@ -67,10 +74,10 @@ class Wordle():
 
     def options(self):
         p = self.make_pattern()
-        options = zarf.multisearch('p' * len(p), p, realret=True)
-        return options
-
-fives = open("sedecordle_wordlist").read().split()
+        # options = zarf.multisearch('p' * len(p), p, realret=True)
+        self._options = [i for i in self._options if all(re.search(k, i) for k in p)]
+        # print(p, self._options)
+        return self._options
 
 class Multicordle():
     def __init__(self, words):
@@ -109,9 +116,17 @@ class Multicordle():
         while True:
             i += 1
             x = input("Word? ")
-            if x == "O":
+            if "&P" in x:
+                a, b = x.split()
+                b = int(b) - 1
+                print(self.wordles[b].options())
+            elif "&A" in x:
+                a, b = x.split()
+                b = int(b) - 1
+                print(self.wordles[b].word)               
+            elif x == "O":
                 for i in range(0, len(self.wordles), 2):
-                    print(len(self.wordles[i].options()), len(self.wordles[i + 1].options()))
+                    print(0 if self.solved[i] else len(self.wordles[i].options()), 0 if self.solved[i + 1] else len(self.wordles[i + 1].options()))
             elif x == "S":
                 n = -1
                 while n != 0:
@@ -144,16 +159,24 @@ class Multicordle():
                     self.evaluate(opts[0], out=False)
 
         return sum(self.solved)
-        
-# Wordle("BUTTE").wordle()
-# i = []
-# for x in tqdm.trange(1000):
-#     i.append(Multicordle.random(n=16).test(['GROUT', 'CHAIN', 'MELDS']))
 
-# print(i)
-# print(statistics.mean(i))
+# Wordle("BIRCH").wordle()     
+# Multicordle.random(n=16).wordle()
+i = []
+for x in tqdm.trange(1000):
+    i.append(Multicordle.random(n=16).test(['GLYPH', 'MOUSE', 'TRAIN']))
+
+print(i)
+print(statistics.mean(i))
+with open("1000_groutchainmelds_2.txt", "w") as f:
+    f.write(str(i))
+# Multicordle.random(n=16).wordle()
+# Multicordle(["MAGMA", "LARVA", "VALID", "GUILD", "VALVE", "WHEAT", "PANEL", "BUSHY", "LUNGE", "AMBER", "TEPID", "SUAVE", "ONION", "DOWEL", "TAUNT", "CROOK"]).wordle()
+
 import matplotlib.pyplot as plt
 import ast
-x = ast.literal_eval(open("1000_gcm.txt").read())
-plt.hist(x, bins=max(x) - min(x) + 1)
+# x = ast.literal_eval(open("1000_gcm.txt").read())
+plt.hist(i, bins=max(i) - min(i) + 1)
 plt.show()
+
+

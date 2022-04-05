@@ -7,8 +7,8 @@ import statistics
 import re
 
 options = [i.upper() for i in open("sedecordle_acceptable").read().split()]
-fives = [i.upper() for i in open("sedecordle_wordlist").read().split()]
-options.extend(fives)
+fives = [i.upper() for i in open("sedecordle_acceptable").read().split()] # [i.upper() for i in open("sedecordle_wordlist").read().split()]
+# options.extend(fives)
 
 
 class Wordle():
@@ -160,18 +160,19 @@ class Multicordle():
 
         return sum(self.solved)
 
+# Multicordle("USHER BLEED STICK TANGO DEVIL THRUM IRATE NADIR LAPSE OTTER NOVEL SMIRK SLIME OWNER TAUNT SPOUT".split()).wordle()
+# Multicordle("WIDTH COLOR STARK TRAIN DRANK SCRUM START BEING HASTY SHOOT SPINY KNEEL FIFTH PLATE SMOTE PITHY".split()).wordle()
 # Wordle("BIRCH").wordle()     
-# Multicordle.random(n=16).wordle()
+Multicordle.random(n=16).wordle()
 i = []
 for x in tqdm.trange(1000):
-    i.append(Multicordle.random(n=16).test(['GLYPH', 'MOUSE', 'TRAIN']))
+    i.append(Multicordle.random(n=16).test(['DENIM', 'GLYPH', 'CARTS']))
 
 print(i)
 print(statistics.mean(i))
-with open("1000_groutchainmelds_2.txt", "w") as f:
+with open("1000_groutchainmelds_proof.txt", "w") as f:
     f.write(str(i))
 # Multicordle.random(n=16).wordle()
-# Multicordle(["MAGMA", "LARVA", "VALID", "GUILD", "VALVE", "WHEAT", "PANEL", "BUSHY", "LUNGE", "AMBER", "TEPID", "SUAVE", "ONION", "DOWEL", "TAUNT", "CROOK"]).wordle()
 
 import matplotlib.pyplot as plt
 import ast
